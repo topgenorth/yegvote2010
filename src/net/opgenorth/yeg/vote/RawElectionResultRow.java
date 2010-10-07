@@ -18,11 +18,6 @@ public class RawElectionResultRow {
     private String row;
     private Date created;
 
-//    public RawElectionResultRow(String row) {
-//        this.created = new Date();
-//        this.row = row;
-//    }
-
     public RawElectionResultRow(String row, Date created) {
         this.row = row;
         this.created = created;
@@ -34,5 +29,9 @@ public class RawElectionResultRow {
     }
     public String getWardName() {
         return tokens[WARDNAME_IDX];
+    }
+
+    public String getCandidateName() {
+        return tokens[CANDIDATENAME_IDX];
     }
 }

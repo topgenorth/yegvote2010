@@ -12,11 +12,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.*;
 
 public class Main extends ListActivity {
     private IElectionResultMonitor service = null;
-    private TextView textView;
+    private TextView infoTextView;
+    private List<WardResult> wardResults;
+    private WardResultViewAdapter adapter;
 
     private ServiceConnection svcConn = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder binder) {
@@ -39,11 +44,13 @@ public class Main extends ListActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        wardResults = new ArrayList<WardResult>();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        textView = (TextView) findViewById(R.id.info);
-
+        infoTextView = (TextView) findViewById(R.id.info);
         bindService(new Intent(this, Election2010ResultsService.class), svcConn, BIND_AUTO_CREATE);
+        adapter = new WardResultViewAdapter();
+        setListAdapter(adapter);
     }
 
     @Override
@@ -63,41 +70,89 @@ public class Main extends ListActivity {
 
     private IElectionResultListener listener = new IElectionResultListener() {
         public void newSetOfElectionResults(SetOfElectionResults results) {
-            final String message = "Last Updated: " + results.getRequestDate().toString();
+            Map<String, RawElectionResultRow> uniqueWards = new HashMap<String, RawElectionResultRow>();
+            for (RawElectionResultRow row : results.getRows()) {
+                if (!uniqueWards.containsKey(row.getWardName()) ) {
+                    uniqueWards.put(row.getWardName(), row);
+                }
+            }
+            Collection<RawElectionResultRow> col = uniqueWards.values() ;
+            final RawElectionResultRow[] rows = new RawElectionResultRow[col.size()];
+            col.toArray(rows);
+            final WardResult[] wr = new WardResult[col.size() ];
+            for (int i = 0; i < rows.length; i++) {
+                RawElectionResultRow rerr = rows[i];
+                wr[i] = new WardResult(rerr);
+            }
+
             Log.v(Constants.LOG_TAG, results.toString());
+
+
+            final String message = "Last Updated: " + results.getRequestDate().toString();
+
             runOnUiThread(new Runnable() {
                 public void run() {
-                    textView.setText(message);
+                    infoTextView.setText(message);
+                    wardResults.clear();
+                    for (int i = 0; i < rows.length; i++) {
+                        wardResults.add(wr[i]);
+                    }
+                    adapter.notifyDataSetChanged();
                 }
             });
         }
     };
 
     class WardResult {
+        WardResult(RawElectionResultRow row) {
+            wardName = row.getWardName();
+            candidateName = row.getCandidateName();
+        }
+
         String wardName;
         String candidateName;
     }
 
     class WardResultWrapper {
         private View row;
+        private TextView candidateName;
+        private TextView wardName;
 
         WardResultWrapper(View row) {
             this.row = row;
         }
+
+        public TextView getCandidateName() {
+            if (candidateName == null) {
+                candidateName = (TextView) row.findViewById(R.id.candidateNameTextView);
+            }
+            return candidateName;
+        }
+
+        public TextView getWardName() {
+            if (wardName == null) {
+                wardName = (TextView) row.findViewById(R.id.wardTextView);
+            }
+            return wardName;
+        }
+
+        public void populateFrom(WardResult w) {
+            getCandidateName().setText(w.candidateName);
+            getWardName().setText(w.wardName);
+        }
+
     }
 
-    class WardResultViewWrapper extends ArrayAdapter<WardResult> {
-        WardResultViewWrapper() {
-            super(Main.this, R.layout.row);
+    class WardResultViewAdapter extends ArrayAdapter<WardResult> {
+        WardResultViewAdapter() {
+            super(Main.this, R.layout.row, wardResults);
         }
 
         public View getView(int position, View convertView, ViewGroup parent) {
             View row = convertView;
-            WardResultWrapper wrapper = null;
-
+            WardResultWrapper wrapper;
             if (row == null) {
                 LayoutInflater inflater = getLayoutInflater();
-
                 row = inflater.inflate(R.layout.row, parent, false);
                 wrapper = new WardResultWrapper(row);
                 row.setTag(wrapper);
@@ -105,7 +160,7 @@ public class Main extends ListActivity {
                 wrapper = (WardResultWrapper) row.getTag();
             }
 
-//			wrapper.populateFrom(timeline.get(position));
+            wrapper.populateFrom(wardResults.get(position));
 
             return (row);
         }
