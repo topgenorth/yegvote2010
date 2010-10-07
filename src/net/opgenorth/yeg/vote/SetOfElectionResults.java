@@ -14,10 +14,10 @@ public class SetOfElectionResults {
         this.responseBody = responseBody;
         this.requestDate = new Date();
     }
-//
-//    public Date getRequestDate() {
-//        return requestDate;
-//    }
+
+    public Date getRequestDate() {
+        return requestDate;
+    }
 //
 //    public boolean didPollSucceed() {
 //        return pollResult == ErrorCodes.Polling.POLL_SUCCEEDED;

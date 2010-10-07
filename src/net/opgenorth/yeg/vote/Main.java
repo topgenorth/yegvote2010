@@ -1,18 +1,20 @@
 package net.opgenorth.yeg.vote;
 
-import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ListActivity;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import java.util.List;
-
-public class Main extends Activity {
+public class Main extends ListActivity {
     private IElectionResultMonitor service = null;
     private TextView textView;
 
@@ -39,7 +41,7 @@ public class Main extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        textView = (TextView) findViewById(R.id.text1);
+        textView = (TextView) findViewById(R.id.info);
 
         bindService(new Intent(this, Election2010ResultsService.class), svcConn, BIND_AUTO_CREATE);
     }
@@ -61,8 +63,8 @@ public class Main extends Activity {
 
     private IElectionResultListener listener = new IElectionResultListener() {
         public void newSetOfElectionResults(SetOfElectionResults results) {
-            final String message = results.getStatus();
-            Log.v(Constants.LOG_TAG, message );
+            final String message = "Last Updated: " + results.getRequestDate().toString();
+            Log.v(Constants.LOG_TAG, results.toString());
             runOnUiThread(new Runnable() {
                 public void run() {
                     textView.setText(message);
@@ -70,4 +72,42 @@ public class Main extends Activity {
             });
         }
     };
+
+    class WardResult {
+        String wardName;
+        String candidateName;
+    }
+
+    class WardResultWrapper {
+        private View row;
+
+        WardResultWrapper(View row) {
+            this.row = row;
+        }
+    }
+
+    class WardResultViewWrapper extends ArrayAdapter<WardResult> {
+        WardResultViewWrapper() {
+            super(Main.this, R.layout.row);
+        }
+
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View row = convertView;
+            WardResultWrapper wrapper = null;
+
+            if (row == null) {
+                LayoutInflater inflater = getLayoutInflater();
+
+                row = inflater.inflate(R.layout.row, parent, false);
+                wrapper = new WardResultWrapper(row);
+                row.setTag(wrapper);
+            } else {
+                wrapper = (WardResultWrapper) row.getTag();
+            }
+
+//			wrapper.populateFrom(timeline.get(position));
+
+            return (row);
+        }
+    }
 }
