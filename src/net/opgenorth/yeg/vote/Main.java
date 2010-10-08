@@ -72,8 +72,10 @@ public class Main extends ListActivity {
         public void newSetOfElectionResults(SetOfElectionResults results) {
             Log.v(Constants.LOG_TAG, results.toString());
 
-            final Collection<WardResult> newWardResults = getWardResults.getResults(results);
+            Collection<WardResult> unsortedWardResults =  getWardResults.getResults(results);
+            Collections.sort((List<WardResult>) unsortedWardResults, new SortWardResultsByContests());
 
+            final Collection<WardResult> newWardResults = new ArrayList<WardResult>(unsortedWardResults);
             final String message = "Last Updated: " + results.getRequestDate().toString();
 
             runOnUiThread(new Runnable() {

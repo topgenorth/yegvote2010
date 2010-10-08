@@ -36,7 +36,7 @@ class WardResultWrapper {
 
     public void populateFrom(WardResult w) {
         getCandidateName().setText(w.candidateName);
-        getWardName().setText(w.wardName);
+        getWardName().setText(w.wardName + " / " + w.contest);
         getVotes().setText("Votes: " + w.votes);
     }
 

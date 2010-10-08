@@ -7,9 +7,10 @@ class WardResult {
         candidateName = row.getCandidateName();
         votes = row.getVotes();
         acclaimed = row.getAcclaimed();
-
+        contest = row.getContest();
     }
 
+    String contest;
     int votes;
     String wardName;
     String candidateName;

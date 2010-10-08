@@ -1,9 +1,6 @@
 package net.opgenorth.yeg.vote;
 
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class GetMostVotesInWard implements IGetWardResults {
     private class UniqueWardName extends WardResult implements IWardResultKey {
@@ -23,7 +20,7 @@ public class GetMostVotesInWard implements IGetWardResults {
     Comparator<WardResult> comparator = new WardResultVotesComparator();
 
     public Collection<WardResult> getResults(SetOfElectionResults results) {
-        Map<String, WardResult> wards = new HashMap<String, WardResult>();
+        Map<String, UniqueWardName> wards = new HashMap<String, UniqueWardName>();
         for (RawElectionResultRow row : results.getRows()) {
             UniqueWardName wr = new UniqueWardName(row);
             if (wards.containsKey(wr.getKey())) {
@@ -38,7 +35,10 @@ public class GetMostVotesInWard implements IGetWardResults {
             }
         }
 
-        return wards.values();
 
+        WardResult[] wr = new WardResult[wards.size() ];
+
+        wards.values().toArray(wr);
+        return Arrays.asList(wr);
     }
 }

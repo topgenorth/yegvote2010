@@ -30,6 +30,7 @@
                   android:singleLine="true"
                   android:ellipsize="end"
                 />
+
     </LinearLayout>
     <LinearLayout
             android:id="@+id/wardStatsLayout"
