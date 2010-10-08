@@ -2,6 +2,9 @@ package net.opgenorth.yeg.vote;
 
 import java.util.Date;
 
+/**
+ * Just a wrapper around the CSV string that is a row.
+ */
 public class RawElectionResultRow {
 
     public static final int ENTITYID_IDX = 0;
@@ -15,11 +18,11 @@ public class RawElectionResultRow {
     public static final int VOTES_IDX = 8;
     public static final int PERCENT_IDX = 9;
     private String[] tokens;
-    private String row;
+    private String originaRow;
     private Date created;
 
     public RawElectionResultRow(String row, Date created) {
-        this.row = row;
+        this.originaRow = row;
         this.created = created;
         this.tokens = row.split(",");
     }
@@ -33,5 +36,13 @@ public class RawElectionResultRow {
 
     public String getCandidateName() {
         return tokens[CANDIDATENAME_IDX];
+    }
+
+    public int getVotes() {
+        return Integer.parseInt(tokens[VOTES_IDX]);
+    }
+
+    public boolean getAcclaimed() {
+        return Boolean.parseBoolean(tokens[ACCLAIMED_IDX]);
     }
 }

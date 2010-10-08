@@ -30,7 +30,7 @@ public class Election2010ResultsService extends Service {
 
     @Override
     public void onCreate() {
-        super.onCreate();    //To change body of overridden methods use File | Settings | File Templates.
+        super.onCreate();
         client = new DefaultHttpClient();
         new Thread(threadBody).start();
     }
@@ -69,7 +69,6 @@ public class Election2010ResultsService extends Service {
     public class LocalBinder extends Binder implements IElectionResultMonitor {
         public void register(IElectionResultListener callback) {
             electionListener = callback;
-//            getElectionResults();
         }
 
         public void unregister(IElectionResultListener callback) {

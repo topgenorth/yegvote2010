@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.*;
@@ -69,24 +68,11 @@ public class Main extends ListActivity {
     }
 
     private IElectionResultListener listener = new IElectionResultListener() {
+        private IGetWardResults getWardResults = new GetMostVotesInWard();
         public void newSetOfElectionResults(SetOfElectionResults results) {
-            Map<String, RawElectionResultRow> uniqueWards = new HashMap<String, RawElectionResultRow>();
-            for (RawElectionResultRow row : results.getRows()) {
-                if (!uniqueWards.containsKey(row.getWardName()) ) {
-                    uniqueWards.put(row.getWardName(), row);
-                }
-            }
-            Collection<RawElectionResultRow> col = uniqueWards.values() ;
-            final RawElectionResultRow[] rows = new RawElectionResultRow[col.size()];
-            col.toArray(rows);
-            final WardResult[] wr = new WardResult[col.size() ];
-            for (int i = 0; i < rows.length; i++) {
-                RawElectionResultRow rerr = rows[i];
-                wr[i] = new WardResult(rerr);
-            }
-
             Log.v(Constants.LOG_TAG, results.toString());
 
+            final Collection<WardResult> newWardResults = getWardResults.getResults(results);
 
             final String message = "Last Updated: " + results.getRequestDate().toString();
 
@@ -94,55 +80,16 @@ public class Main extends ListActivity {
                 public void run() {
                     infoTextView.setText(message);
                     wardResults.clear();
-                    for (int i = 0; i < rows.length; i++) {
-                        wardResults.add(wr[i]);
-                    }
+                    wardResults.addAll(newWardResults);
                     adapter.notifyDataSetChanged();
                 }
             });
         }
     };
 
-    class WardResult {
-        WardResult(RawElectionResultRow row) {
-            wardName = row.getWardName();
-            candidateName = row.getCandidateName();
-        }
-
-        String wardName;
-        String candidateName;
-    }
-
-    class WardResultWrapper {
-        private View row;
-        private TextView candidateName;
-        private TextView wardName;
-
-        WardResultWrapper(View row) {
-            this.row = row;
-        }
-
-        public TextView getCandidateName() {
-            if (candidateName == null) {
-                candidateName = (TextView) row.findViewById(R.id.candidateNameTextView);
-            }
-            return candidateName;
-        }
-
-        public TextView getWardName() {
-            if (wardName == null) {
-                wardName = (TextView) row.findViewById(R.id.wardTextView);
-            }
-            return wardName;
-        }
-
-        public void populateFrom(WardResult w) {
-            getCandidateName().setText(w.candidateName);
-            getWardName().setText(w.wardName);
-        }
-
-    }
-
+    /**
+     * Used to display the WardResult.
+     */
     class WardResultViewAdapter extends ArrayAdapter<WardResult> {
         WardResultViewAdapter() {
             super(Main.this, R.layout.row, wardResults);

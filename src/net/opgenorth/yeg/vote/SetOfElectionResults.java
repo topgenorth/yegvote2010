@@ -18,14 +18,7 @@ public class SetOfElectionResults {
     public Date getRequestDate() {
         return requestDate;
     }
-//
-//    public boolean didPollSucceed() {
-//        return pollResult == ErrorCodes.Polling.POLL_SUCCEEDED;
-//    }
-//
-//    public String getResponseBody() {
-//        return responseBody;
-//    }
+
 
     public List<RawElectionResultRow> getRows() {
         String[] rows = responseBody.split("\\r\\n");
@@ -39,12 +32,16 @@ public class SetOfElectionResults {
     }
 
     public String getStatus() {
-        StringBuffer sb = new StringBuffer();
-        sb.append("Found ");
-        sb.append(getRows().size());
-        sb.append(" rows at ");
-        sb.append(requestDate);
-        sb.append(".");
-        return sb.toString();
+        if (pollResult == ErrorCodes.Polling.POLL_SUCCEEDED) {
+            StringBuffer sb = new StringBuffer();
+            sb.append("Found ");
+            sb.append(getRows().size());
+            sb.append(" rows at ");
+            sb.append(requestDate);
+            sb.append(".");
+            return sb.toString();
+        } else {
+            return "No results.";
+        }
     }
 }
