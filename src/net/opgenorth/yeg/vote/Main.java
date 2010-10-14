@@ -70,6 +70,7 @@ public class Main extends ListActivity {
     private IElectionResultListener listener = new IElectionResultListener() {
         private IGetWardResults getWardResults = new GetMostVotesInWard();
         public void newSetOfElectionResults(SetOfElectionResults results) {
+
             Log.v(Constants.LOG_TAG, results.toString());
 
             Collection<WardResult> unsortedWardResults =  getWardResults.getResults(results);

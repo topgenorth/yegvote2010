@@ -19,6 +19,10 @@ public class SetOfElectionResults {
         return requestDate;
     }
 
+    @Override
+    public String toString() {
+        return getStatus();
+    }
 
     public List<RawElectionResultRow> getRows() {
         String[] rows = responseBody.split("\\r\\n");
@@ -41,7 +45,7 @@ public class SetOfElectionResults {
             sb.append(".");
             return sb.toString();
         } else {
-            return "No results.";
+            return "No results (polling failed).";
         }
     }
 }

@@ -16,7 +16,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Election2010ResultsService extends Service {
 
-    private static final String ELECTION_RESULTS_URL = "http://data.edmonton.ca/DataBrowser/DownloadCsv?container=coe&entitySet=Election2010ResultsSamples&filter=NOFILTER";
+    private static final String ELECTION_RESULTS_URL = "http://data.edmonton.ca/DataBrowser/DownloadCsv?container=coe&entitySet=Election2010Results&filter=NOFILTER";
     private AtomicBoolean active = new AtomicBoolean(true);
     private HttpClient client;
     private final Binder binder = new LocalBinder();
