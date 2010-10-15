@@ -1,7 +1,5 @@
 package net.opgenorth.yeg.vote;
 
-import android.app.AlertDialog;
-import android.app.ListActivity;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -16,13 +14,13 @@ import android.widget.TextView;
 
 import java.util.*;
 
-public class Main extends ListActivity {
+public class Main extends PollingYegVoteListActivity {
     private IElectionResultMonitor service = null;
     private TextView infoTextView;
     private List<WardResult> wardResults;
     private WardResultViewAdapter adapter;
 
-    private ServiceConnection svcConn = new ServiceConnection() {
+    protected ServiceConnection svcConn = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder binder) {
             service = (IElectionResultMonitor) binder;
             try {
@@ -57,14 +55,6 @@ public class Main extends ListActivity {
         super.onDestroy();
         unbindService(svcConn);
         Log.v(Constants.LOG_TAG, "Shutting down " + Constants.LOG_TAG);
-    }
-
-    private void earthShatteringKaboom(Throwable t) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Exception!")
-                .setMessage(t.toString())
-                .setPositiveButton("OK", null)
-                .show();
     }
 
     private IElectionResultListener listener = new IElectionResultListener() {

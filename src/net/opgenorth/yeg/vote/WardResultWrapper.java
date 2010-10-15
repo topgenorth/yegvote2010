@@ -34,6 +34,9 @@ class WardResultWrapper {
         return wardName;
     }
 
+    public void populateFrom(RawElectionResultRow row) {
+        populateFrom(new WardResult(row));
+    }
     public void populateFrom(WardResult w) {
         getCandidateName().setText(w.candidateName);
         getWardName().setText(w.wardName + " / " + w.contest);

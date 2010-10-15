@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/contestRowLayout"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:padding="4px"
+        >
+    <LinearLayout
+            android:id="@+id/candidateLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            >
+        <TextView android:id="@+id/candidateNameTextView"
+                  android:layout_width="0px"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:gravity="right"
+                  android:singleLine="true"
+                  android:ellipsize="end"
+                />
+
+    </LinearLayout>
+    <LinearLayout
+            android:id="@+id/wardStatsLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            >
+        <TextView android:id="@+id/votesTextView"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:gravity="center_vertical"
+                  android:singleLine="false"
+                />
+        <TextView android:id="@+id/percentReporting"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  android:layout_weight="1"
+                  android:gravity="center_vertical" />
+    </LinearLayout>
+</LinearLayout>
