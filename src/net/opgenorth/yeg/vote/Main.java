@@ -57,6 +57,20 @@ public class Main extends PollingYegVoteListActivity {
         Log.v(Constants.LOG_TAG, "Shutting down " + Constants.LOG_TAG);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.v(Constants.LOG_TAG, "onPause:  stop listening to service");
+        unbindService(svcConn);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.v(Constants.LOG_TAG, "onResume:  start listening to service");
+        bindService(new Intent(this, Election2010ResultsService.class), svcConn, BIND_AUTO_CREATE);
+    }
+
     private IElectionResultListener listener = new IElectionResultListener() {
         private IGetWardResults getWardResults = new GetMostVotesInWard();
         public void newSetOfElectionResults(SetOfElectionResults results) {
