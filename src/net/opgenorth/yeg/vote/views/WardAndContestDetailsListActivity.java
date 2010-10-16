@@ -22,7 +22,7 @@ import net.opgenorth.yeg.vote.model.SetOfElectionResults;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class WardAndContestDetailsActivity extends PollingYegVoteListActivity {
+public class WardAndContestDetailsListActivity extends PollingYegVoteListActivity {
     private String wardName;
     private String contest;
 
@@ -121,7 +121,7 @@ public class WardAndContestDetailsActivity extends PollingYegVoteListActivity {
 
     class RawElectionResultRowAdapter extends ArrayAdapter<RawElectionResultRow> {
         public RawElectionResultRowAdapter() {
-            super(WardAndContestDetailsActivity.this, R.layout.warddetails, electionResults);
+            super(WardAndContestDetailsListActivity.this, R.layout.warddetails, electionResults);
         }
 
         @Override

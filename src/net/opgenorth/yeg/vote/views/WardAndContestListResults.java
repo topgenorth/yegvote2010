@@ -1,6 +1,5 @@
 package net.opgenorth.yeg.vote.views;
 
-import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -28,7 +27,6 @@ public class WardAndContestListResults extends PollingYegVoteListActivity {
     private TextView infoTextView;
     private List<WardResult> wardResults;
     private WardResultViewAdapter adapter;
-    private AlertDialog alertDialog;
 
     protected ServiceConnection svcConn = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder binder) {
@@ -97,7 +95,7 @@ public class WardAndContestListResults extends PollingYegVoteListActivity {
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         WardResultWrapper wrapper = (WardResultWrapper) v.getTag();
-        Intent intentToSeeDetails = new Intent(WardAndContestListResults.this, WardAndContestDetailsActivity.class);
+        Intent intentToSeeDetails = new Intent(WardAndContestListResults.this, WardAndContestDetailsListActivity.class);
         intentToSeeDetails.putExtra("contest", wrapper.getWardResult().contest);
         intentToSeeDetails.putExtra("wardName", wrapper.getWardResult().wardName);
 
