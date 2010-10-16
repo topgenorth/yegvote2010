@@ -23,7 +23,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-public class Main extends PollingYegVoteListActivity {
+public class WardAndContestListResults extends PollingYegVoteListActivity {
     private IElectionResultMonitor service = null;
     private TextView infoTextView;
     private List<WardResult> wardResults;
@@ -97,7 +97,7 @@ public class Main extends PollingYegVoteListActivity {
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         WardResultWrapper wrapper = (WardResultWrapper) v.getTag();
-        Intent intentToSeeDetails = new Intent(Main.this, WardAndContestDetailsActivity.class);
+        Intent intentToSeeDetails = new Intent(WardAndContestListResults.this, WardAndContestDetailsActivity.class);
         intentToSeeDetails.putExtra("contest", wrapper.getWardResult().contest);
         intentToSeeDetails.putExtra("wardName", wrapper.getWardResult().wardName);
 
@@ -130,7 +130,7 @@ public class Main extends PollingYegVoteListActivity {
 
     class WardResultViewAdapter extends ArrayAdapter<WardResult> {
         WardResultViewAdapter() {
-            super(Main.this, R.layout.row, wardResults);
+            super(WardAndContestListResults.this, R.layout.row, wardResults);
         }
 
         public View getView(int position, View convertView, ViewGroup parent) {
