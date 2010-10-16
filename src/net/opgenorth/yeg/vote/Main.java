@@ -1,5 +1,6 @@
 package net.opgenorth.yeg.vote;
 
+import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -10,15 +11,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
+import net.opgenorth.yeg.vote.model.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 public class Main extends PollingYegVoteListActivity {
     private IElectionResultMonitor service = null;
     private TextView infoTextView;
     private List<WardResult> wardResults;
     private WardResultViewAdapter adapter;
+    private AlertDialog alertDialog;
 
     protected ServiceConnection svcConn = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder binder) {
@@ -45,7 +52,9 @@ public class Main extends PollingYegVoteListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         infoTextView = (TextView) findViewById(R.id.info);
+
         bindService(new Intent(this, Election2010ResultsService.class), svcConn, BIND_AUTO_CREATE);
+
         adapter = new WardResultViewAdapter();
         setListAdapter(adapter);
     }
@@ -53,31 +62,53 @@ public class Main extends PollingYegVoteListActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unbindService(svcConn);
+        unbindElectionResultsService();
         Log.v(Constants.LOG_TAG, "Shutting down " + Constants.LOG_TAG);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        unbindElectionResultsService();
         Log.v(Constants.LOG_TAG, "onPause:  stop listening to service");
-        unbindService(svcConn);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        bindElectionResultsService();
         Log.v(Constants.LOG_TAG, "onResume:  start listening to service");
+    }
+
+    private void unbindElectionResultsService() {
+        if (isSvcConnBound)
+            unbindService(svcConn);
+        isSvcConnBound = false;
+    }
+
+    private void bindElectionResultsService() {
         bindService(new Intent(this, Election2010ResultsService.class), svcConn, BIND_AUTO_CREATE);
+        isSvcConnBound = true;
+    }
+
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        WardResultWrapper wrapper = (WardResultWrapper) v.getTag();
+        Intent intentToSeeDetails = new Intent(Main.this, WardAndContestDetailsActivity.class);
+        intentToSeeDetails.putExtra("contest", wrapper.getWardResult().contest);
+        intentToSeeDetails.putExtra("wardName", wrapper.getWardResult().wardName);
+
+        startActivity(intentToSeeDetails);
     }
 
     private IElectionResultListener listener = new IElectionResultListener() {
         private IGetWardResults getWardResults = new GetMostVotesInWard();
+
         public void newSetOfElectionResults(SetOfElectionResults results) {
 
             Log.v(Constants.LOG_TAG, results.toString());
 
-            Collection<WardResult> unsortedWardResults =  getWardResults.getResults(results);
+            Collection<WardResult> unsortedWardResults = getWardResults.getResults(results);
             Collections.sort((List<WardResult>) unsortedWardResults, new SortWardResultsByContests());
 
             final Collection<WardResult> newWardResults = new ArrayList<WardResult>(unsortedWardResults);
@@ -94,9 +125,6 @@ public class Main extends PollingYegVoteListActivity {
         }
     };
 
-    /**
-     * Used to display the WardResult.
-     */
     class WardResultViewAdapter extends ArrayAdapter<WardResult> {
         WardResultViewAdapter() {
             super(Main.this, R.layout.row, wardResults);

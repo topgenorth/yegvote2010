@@ -2,14 +2,15 @@ package net.opgenorth.yeg.vote;
 
 import android.view.View;
 import android.widget.TextView;
+import net.opgenorth.yeg.vote.model.RawElectionResultRow;
 
-public class ContestResultWrapper {
+public class WardAndContestResultWrapper {
     private View row;
     private TextView candidateName;
     private TextView percentReporting;
     private TextView votes;
 
-    public ContestResultWrapper(View row) {
+    public WardAndContestResultWrapper(View row) {
         this.row = row;
     }
 
@@ -38,5 +39,6 @@ public class ContestResultWrapper {
         getCandidateName().setText(resultRow.getCandidateName());
 
         getVotes().setText("Votes: " + resultRow.getVotes() + " // " + resultRow.getVotesCast() );
+
     }
 }

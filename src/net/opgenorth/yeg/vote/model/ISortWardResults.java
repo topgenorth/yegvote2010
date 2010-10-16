@@ -1,4 +1,4 @@
-package net.opgenorth.yeg.vote;
+package net.opgenorth.yeg.vote.model;
 
 public interface ISortWardResults {
 }

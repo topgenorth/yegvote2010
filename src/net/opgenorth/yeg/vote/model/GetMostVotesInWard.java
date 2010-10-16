@@ -1,4 +1,6 @@
-package net.opgenorth.yeg.vote;
+package net.opgenorth.yeg.vote.model;
+
+import net.opgenorth.yeg.vote.model.*;
 
 import java.util.*;
 
@@ -17,7 +19,7 @@ public class GetMostVotesInWard implements IGetWardResults {
         }
     }
 
-    Comparator<WardResult> comparator = new WardResultVotesComparator();
+    Comparator<WardResult> comparator = new SortWardResultsByVotes();
 
     public Collection<WardResult> getResults(SetOfElectionResults results) {
         Map<String, UniqueWardName> wards = new HashMap<String, UniqueWardName>();

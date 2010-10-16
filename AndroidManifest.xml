@@ -14,7 +14,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".WardDetailsActivity" android:label="Ward Details"/>
+        <activity android:name=".WardAndContestDetailsActivity" android:label="Ward Details"/>
         <service android:name=".Election2010ResultsService"/>
     </application>
 </manifest> 

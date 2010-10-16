@@ -1,8 +1,8 @@
-package net.opgenorth.yeg.vote;
+package net.opgenorth.yeg.vote.model;
 
 
-class WardResult {
-    WardResult(RawElectionResultRow row) {
+public class WardResult {
+    public WardResult(RawElectionResultRow row) {
         wardName = row.getWardName();
         candidateName = row.getCandidateName();
         votes = row.getVotes();
@@ -10,11 +10,11 @@ class WardResult {
         contest = row.getContest();
     }
 
-    String contest;
-    int votes;
-    String wardName;
-    String candidateName;
-    boolean acclaimed;
+    public String contest;
+    public int votes;
+    public String wardName;
+    public String candidateName;
+    public boolean acclaimed;
 
     public String getKey() {
         return wardName + "_" + candidateName;

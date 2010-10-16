@@ -1,8 +1,10 @@
-package net.opgenorth.yeg.vote;
+package net.opgenorth.yeg.vote.model;
+
+import net.opgenorth.yeg.vote.model.WardResult;
 
 import java.util.Comparator;
 
-public class WardResultVotesComparator implements Comparator<WardResult> {
+public class SortWardResultsByVotes implements Comparator<WardResult> {
     public int compare(WardResult o1, WardResult o2) {
         if ((o1 == null) && (o2 == null))
             return 0;

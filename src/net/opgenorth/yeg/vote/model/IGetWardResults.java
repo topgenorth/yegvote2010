@@ -1,4 +1,7 @@
-package net.opgenorth.yeg.vote;
+package net.opgenorth.yeg.vote.model;
+
+import net.opgenorth.yeg.vote.model.SetOfElectionResults;
+import net.opgenorth.yeg.vote.model.WardResult;
 
 import java.util.Collection;
 

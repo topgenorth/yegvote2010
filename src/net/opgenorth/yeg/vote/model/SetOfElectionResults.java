@@ -1,4 +1,7 @@
-package net.opgenorth.yeg.vote;
+package net.opgenorth.yeg.vote.model;
+
+import net.opgenorth.yeg.vote.ErrorCodes;
+import net.opgenorth.yeg.vote.model.RawElectionResultRow;
 
 import java.util.ArrayList;
 import java.util.Date;

@@ -2,6 +2,8 @@ package net.opgenorth.yeg.vote;
 
 import android.view.View;
 import android.widget.TextView;
+import net.opgenorth.yeg.vote.model.RawElectionResultRow;
+import net.opgenorth.yeg.vote.model.WardResult;
 
 
 class WardResultWrapper {
@@ -9,6 +11,7 @@ class WardResultWrapper {
     private TextView candidateName;
     private TextView wardName;
     private TextView votes;
+    private WardResult wardResult;
 
     WardResultWrapper(View row) {
         this.row = row;
@@ -20,6 +23,7 @@ class WardResultWrapper {
         }
         return votes;
     }
+
     public TextView getCandidateName() {
         if (candidateName == null) {
             candidateName = (TextView) row.findViewById(R.id.candidateNameTextView);
@@ -37,7 +41,13 @@ class WardResultWrapper {
     public void populateFrom(RawElectionResultRow row) {
         populateFrom(new WardResult(row));
     }
+
+    public WardResult getWardResult() {
+        return wardResult;
+    }
+
     public void populateFrom(WardResult w) {
+        this.wardResult = w;
         getCandidateName().setText(w.candidateName);
         getWardName().setText(w.wardName + " / " + w.contest);
         getVotes().setText("Votes: " + w.votes);
