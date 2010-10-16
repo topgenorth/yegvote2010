@@ -38,8 +38,7 @@ public class WardAndContestResultWrapper {
 
     public void populateFrom(RawElectionResultRow resultRow) {
         getCandidateName().setText(resultRow.getCandidateName());
-
-        getVotes().setText("Votes: " + resultRow.getVotes() + " // " + resultRow.getVotesCast() );
-
+        getPercentReport().setText(resultRow.getPercent() + "% of votes");
+        getVotes().setText("Votes: " + resultRow.getVotes() );
     }
 }

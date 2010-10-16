@@ -28,7 +28,8 @@ public class WardAndContestDetailsListActivity extends PollingYegVoteListActivit
 
     private IElectionResultMonitor service = null;
     private ArrayList<RawElectionResultRow> electionResults;
-    private TextView infoTextView;
+    private TextView lastUpdatedTextView;
+    private TextView wardAndContestNameTextView;
     private RawElectionResultRowAdapter adapter;
 
     protected ServiceConnection svcConn = new ServiceConnection() {
@@ -61,7 +62,7 @@ public class WardAndContestDetailsListActivity extends PollingYegVoteListActivit
 
             runOnUiThread(new Runnable() {
                 public void run() {
-                    infoTextView.setText(message);
+                    lastUpdatedTextView.setText(message);
                     electionResults.clear();
                     electionResults.addAll(filteredResult);
                     adapter.notifyDataSetChanged();
@@ -75,7 +76,8 @@ public class WardAndContestDetailsListActivity extends PollingYegVoteListActivit
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.warddetails);
-        infoTextView = (TextView) findViewById(R.id.lastUpdated);
+        lastUpdatedTextView = (TextView) findViewById(R.id.lastUpdated);
+        wardAndContestNameTextView = (TextView) findViewById(R.id.wardAndContest);
 
         getWardNameAndContest();
 
@@ -85,9 +87,10 @@ public class WardAndContestDetailsListActivity extends PollingYegVoteListActivit
 
     private void getWardNameAndContest() {
         Bundle bundle = getIntent().getExtras();
-
         wardName = bundle.getString("wardName");
         contest =bundle.getString("contest");
+
+        wardAndContestNameTextView.setText("Results for " + wardName + " / " + contest);
     }
 
     private void unbindElectionResultsService() {

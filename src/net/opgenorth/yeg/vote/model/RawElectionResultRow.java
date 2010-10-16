@@ -42,8 +42,8 @@ public class RawElectionResultRow {
         return Integer.parseInt(tokens[VOTES_IDX]);
     }
 
-    public int getVotesCast() {
-        return Integer.parseInt(tokens[VOTESCAST_IDX]);
+    public String getPercent() {
+        return tokens[PERCENT_IDX];
     }
 
     public boolean getAcclaimed() {

@@ -5,8 +5,9 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
         >
-    <TextView android:id="@+id/wardName"
+    <TextView android:id="@+id/wardAndContest"
               android:layout_width="fill_parent"
+              android:textStyle="bold"
               android:layout_height="wrap_content" />
     <TextView android:id="@+id/lastUpdated"
               android:layout_width="fill_parent"
