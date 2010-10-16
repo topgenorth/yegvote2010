@@ -1,4 +1,4 @@
-package net.opgenorth.yeg.vote;
+package net.opgenorth.yeg.vote.views;
 
 import android.app.AlertDialog;
 import android.content.ComponentName;
@@ -13,6 +13,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import net.opgenorth.yeg.vote.*;
+import net.opgenorth.yeg.vote.data.Election2010ResultsService;
+import net.opgenorth.yeg.vote.data.IElectionResultListener;
 import net.opgenorth.yeg.vote.model.*;
 
 import java.util.ArrayList;

@@ -1,7 +1,8 @@
-package net.opgenorth.yeg.vote;
+package net.opgenorth.yeg.vote.views;
 
 import android.view.View;
 import android.widget.TextView;
+import net.opgenorth.yeg.vote.R;
 import net.opgenorth.yeg.vote.model.RawElectionResultRow;
 import net.opgenorth.yeg.vote.model.WardResult;
 

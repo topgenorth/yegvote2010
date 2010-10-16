@@ -1,4 +1,4 @@
-package net.opgenorth.yeg.vote;
+package net.opgenorth.yeg.vote.views;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;

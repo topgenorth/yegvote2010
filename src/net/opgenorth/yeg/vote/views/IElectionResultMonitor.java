@@ -1,4 +1,6 @@
-package net.opgenorth.yeg.vote;
+package net.opgenorth.yeg.vote.views;
+
+import net.opgenorth.yeg.vote.data.IElectionResultListener;
 
 public interface IElectionResultMonitor {
     void register (IElectionResultListener callback);

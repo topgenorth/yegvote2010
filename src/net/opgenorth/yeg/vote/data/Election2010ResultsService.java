@@ -1,4 +1,4 @@
-package net.opgenorth.yeg.vote;
+package net.opgenorth.yeg.vote.data;
 
 import android.app.Service;
 import android.content.Intent;
@@ -6,6 +6,9 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.util.Log;
+import net.opgenorth.yeg.vote.Constants;
+import net.opgenorth.yeg.vote.ErrorCodes;
+import net.opgenorth.yeg.vote.views.IElectionResultMonitor;
 import net.opgenorth.yeg.vote.model.SetOfElectionResults;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
