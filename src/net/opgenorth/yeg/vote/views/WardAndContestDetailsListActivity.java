@@ -32,6 +32,7 @@ public class WardAndContestDetailsListActivity extends PollingYegVoteListActivit
     private TextView wardAndContestNameTextView;
     private RawElectionResultRowAdapter adapter;
 
+
     protected ServiceConnection svcConn = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder binder) {
             service = (IElectionResultMonitor) binder;
