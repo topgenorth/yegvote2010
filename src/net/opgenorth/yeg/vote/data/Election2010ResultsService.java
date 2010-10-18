@@ -57,7 +57,7 @@ public class Election2010ResultsService extends Service {
     private void getElectionResults() {
         String responseBody;
         SetOfElectionResults result;
-        HttpGet getMethod = new HttpGet(ELECTION_RESULTS_SAMPLE_URL);
+        HttpGet getMethod = new HttpGet(ELECTION_RESULTS_URL);
         try {
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
             responseBody = client.execute(getMethod, responseHandler);
